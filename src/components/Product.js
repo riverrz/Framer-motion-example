@@ -23,12 +23,26 @@ const Product = () => {
   const up = useTransform(x, [-100, 0], [-100, 0]);
   const down = useTransform(x, [-100, 0], [100, 0]);
 
+  let targetElement = document.querySelector("html");
+
   const [state, setState] = useState(false);
+
   useEffect(() => {
     x.onChange(() => {
       x.get() > -100 ? setState(false) : setState(true);
     });
   }, [x]);
+
+  useEffect(() => {
+    state
+      ? targetElement.classList.add("no-scroll")
+      : targetElement.classList.remove("no-scroll");
+  });
+
+  const closeProductDrag = () => {
+    x.stop();
+    x.set(0);
+  };
   return (
     <div className="product">
       <div className="product-inner">
@@ -66,7 +80,7 @@ const Product = () => {
               className="product-drag-header"
             >
               <div className="company-name">HiFive1</div>
-              <div className="close">
+              <div className="close" onClick={closeProductDrag}>
                 <Close />
               </div>
             </motion.div>
