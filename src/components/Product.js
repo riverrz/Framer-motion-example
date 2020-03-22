@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import ProductImage from "../assets/product.png";
 
-import { motion, useSpring, useTransform } from "framer-motion";
+import {
+  motion,
+  useSpring,
+  useTransform,
+  AnimatePresence
+} from "framer-motion";
 
 //svgs
 import { ReactComponent as Close } from "../assets/close.svg";
@@ -28,7 +33,10 @@ const Product = () => {
     <div className="product">
       <div className="product-inner">
         <div className="product-content">
-          <motion.div style={{ translateY: up }} className="product-content-inner">
+          <motion.div
+            style={{ translateY: up }}
+            className="product-content-inner"
+          >
             <h4>Freedom Everywhere</h4>
             <h1>HiFive1 Rev B</h1>
             <p>
@@ -44,13 +52,28 @@ const Product = () => {
         </div>
       </div>
       <div className="product-slide-enlarge">
-        <motion.div style={{ opacity: fadeIn }} className="background"></motion.div>
-        <div className="product-drag-header">
-          <div className="company-name">HiFive1</div>
-          <div className="close">
-            <Close />
-          </div>
-        </div>
+        <motion.div
+          style={{ opacity: fadeIn }}
+          className="background"
+        ></motion.div>
+        {state ? (
+          <AnimatePresence>
+            <motion.div
+              initial={{ opacity: 0, y: -30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ease }}
+              exit={{ opacity: 0, y: -30 }}
+              className="product-drag-header"
+            >
+              <div className="company-name">HiFive1</div>
+              <div className="close">
+                <Close />
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        ) : (
+          <AnimatePresence></AnimatePresence>
+        )}
         <div className="product-container">
           <motion.div
             style={{ x, scale }}
